@@ -1,0 +1,9 @@
+[build]
+  base = "./"  # or leave blank if the root directory
+  command = "npm run build"
+  publish = "dist"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
