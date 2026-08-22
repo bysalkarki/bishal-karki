@@ -1,74 +1,102 @@
-# Welcome to your Lovable project
+# Bishal Karki — Portfolio
 
-## Project info
+Personal portfolio website for **Bishal Karki**, a PHP & Node.js Backend Developer.  
+Live at **[bysalkarki.github.io/bishal-karki](https://bysalkarki.github.io/bishal-karki/)**
 
-**URL**: https://lovable.dev/projects/a0fa3fca-d577-42fe-a70d-8e63509af945
+## ✨ Overview
 
-## How can I edit this code?
+A single-page portfolio styled as a vintage line-printer report — monospace type, sprocket-hole margins, perforated fold-lines, and green-bar listings. Built to stand apart from the typical dark-neon developer portfolio.
 
-There are several ways of editing your application.
+### Sections
 
-**Use Lovable**
+- **Hero** — Batch-job banner with name, role & tagline
+- **Skills** — Technical proficiencies (PHP, Node.js, Laravel, Express, etc.)
+- **Experience** — Professional timeline
+- **Projects** — Featured work with descriptions & links
+- **About** — Background & interests
+- **Contact** — Get in touch
+- **Reads** — Personal reading log (available at `/reads`)
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/a0fa3fca-d577-42fe-a70d-8e63509af945) and start prompting.
+## 🛠 Tech Stack
 
-Changes made via Lovable will be committed automatically to this repo.
+| Layer       | Technology                              |
+| ----------- | --------------------------------------- |
+| Framework   | React 18 + TypeScript                   |
+| Build Tool  | Vite 5                                  |
+| Styling     | Tailwind CSS + shadcn/ui                |
+| Animations  | Framer Motion                           |
+| Routing     | React Router DOM                        |
+| Font        | Courier Prime (Google Fonts)            |
+| Hosting     | GitHub Pages (via GitHub Actions)       |
 
-**Use your preferred IDE**
+## 🚀 Getting Started
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Prerequisites
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- [Node.js](https://nodejs.org/) (v18+)
+- npm, yarn, or bun
 
-Follow these steps:
+### Install & Run
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+```bash
+# Clone the repo
+git clone git@github.com:bysalkarki/bishal-karki.git
+cd bishal-karki
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Install dependencies
+npm install
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start dev server (http://localhost:8080)
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+### Build for Production
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```bash
+npm run build    # Output in ./dist
+npm run preview  # Preview the production build locally
+```
 
-**Use GitHub Codespaces**
+## 📁 Project Structure
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```
+├── public/              # Static assets (favicons, 404.html, etc.)
+├── src/
+│   ├── components/      # Reusable UI components
+│   │   ├── ui/          # shadcn/ui primitives
+│   │   ├── Hero.tsx
+│   │   ├── Skills.tsx
+│   │   ├── Experience.tsx
+│   │   ├── Projects.tsx
+│   │   ├── About.tsx
+│   │   ├── Contact.tsx
+│   │   ├── Navigation.tsx
+│   │   └── report.tsx   # Line-printer visual elements
+│   ├── data/            # Static data (books, etc.)
+│   ├── hooks/           # Custom React hooks
+│   ├── lib/             # Utility functions
+│   ├── pages/           # Route-level page components
+│   │   ├── Index.tsx
+│   │   ├── Reads.tsx
+│   │   └── NotFound.tsx
+│   ├── App.tsx          # Root component with routing
+│   └── main.tsx         # Entry point
+├── index.html           # HTML shell
+├── vite.config.ts       # Vite configuration
+├── tailwind.config.ts   # Tailwind configuration
+└── .github/workflows/   # CI/CD (auto-deploy to GitHub Pages)
+```
 
-## What technologies are used for this project?
+## 🌐 Deployment
 
-This project is built with:
+Deployment is **fully automated**. Push to `main` and GitHub Actions will:
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+1. Install dependencies (`npm ci`)
+2. Build the project (`npm run build`)
+3. Deploy the `dist/` folder to GitHub Pages
 
-## How can I deploy this project?
+No manual build step required.
 
-Simply open [Lovable](https://lovable.dev/projects/a0fa3fca-d577-42fe-a70d-8e63509af945) and click on Share -> Publish.
+## 📄 License
 
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
-# bysalkarki.github.io
+This project is personal portfolio source code. Feel free to use it as inspiration for your own portfolio.
