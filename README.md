@@ -1,7 +1,7 @@
 # Bishal Karki — Portfolio
 
 Personal portfolio website for **Bishal Karki**, a PHP & Node.js Backend Developer.  
-Live at **[bysalkarki.github.io/bishal-karki](https://bysalkarki.github.io/bishal-karki/)**
+Live at **[bishal-karki.com.np](https://bishal-karki.com.np)**
 
 ## ✨ Overview
 

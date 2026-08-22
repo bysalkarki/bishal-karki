@@ -14,7 +14,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter basename="/bishal-karki">
+      <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
           {/* Unlisted, URL-only reading log */}
