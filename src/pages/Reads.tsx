@@ -15,58 +15,66 @@ import { books, currentReads, type Book, type CurrentRead } from "@/data/books";
 const Rating = ({ score }: { score: number }) => {
   const n = Math.max(0, Math.min(5, Math.round(score)));
   return (
-    <span className="inline-flex items-center gap-2" aria-label={`Enjoyability ${n} of 5`}>
-      <span className="text-sm tracking-[0.15em] text-ledger-red" aria-hidden="true">
+    <span className="inline-flex items-center gap-1.5" aria-label={`Enjoyability ${n} of 5`}>
+      <span className="text-xs tracking-[0.12em] text-ledger-red" aria-hidden="true">
         {"★".repeat(n)}
-        <span className="text-ink/25">{"★".repeat(5 - n)}</span>
+        <span className="text-ink/20">{"★".repeat(5 - n)}</span>
       </span>
-      <Label className="text-ink-soft">{n}/5</Label>
+      <Label className="text-ink-soft text-[0.6875rem]">{n}/5</Label>
     </span>
   );
 };
 
 /**
- * Cover plate — struck grey and halftoned on the page, true colour under the
- * cursor. Hover is driven by the enclosing record's `group`, so both record
- * kinds behave identically. `size` sets the plate's box.
+ * Cover plate — accurately framed at true 2:3 book aspect ratio with
+ * physical book spine detail, struck grey and halftoned on the page,
+ * blooming to true colour on hover.
  */
 const CoverPlate = ({
   src,
   title,
-  size = "h-56 w-full",
+  size = "h-44",
+  className = "",
 }: {
   src: string;
   title: string;
   size?: string;
+  className?: string;
 }) => {
   const [missing, setMissing] = useState(!src);
   if (missing) {
     return (
-      <div className={`halftone flex flex-col items-center justify-center text-center ${size}`}>
-        <span aria-hidden="true" className="text-4xl text-ink/50">▨</span>
-        <span className="mt-3 text-[0.6875rem] font-bold uppercase tracking-[0.12em] text-ink-soft">
-          Cover
+      <div className={`halftone flex flex-col items-center justify-center text-center ${size} w-full bg-greenbar/20 px-3`}>
+        <span aria-hidden="true" className="text-2xl text-ink/40 font-mono">▨</span>
+        <span className="mt-1.5 text-[0.625rem] font-bold uppercase tracking-[0.1em] text-ink-soft line-clamp-1 max-w-[85%]">
+          {title}
         </span>
-        <span className="mt-1 text-[0.6875rem] font-bold uppercase tracking-[0.12em] text-ink-soft/70">
+        <span className="text-[0.5625rem] font-bold uppercase tracking-[0.1em] text-ink-soft/70">
           Awaiting scan
         </span>
       </div>
     );
   }
   return (
-    <>
-      <img
-        src={src}
-        alt={`Cover of ${title}`}
-        loading="lazy"
-        onError={() => setMissing(true)}
-        className={`${size} object-contain py-3 grayscale contrast-125 transition-[filter,transform] duration-500 ease-out group-hover:scale-[1.06] group-hover:contrast-100 group-hover:grayscale-0`}
-      />
+    <div className={`relative flex items-center justify-center overflow-hidden bg-greenbar/20 w-full ${size} ${className}`}>
+      {/* Physical book jacket with 2:3 proportions and spine relief */}
+      <div className="relative h-[88%] aspect-[2/3] shrink-0 border border-ink/50 bg-paper shadow-none">
+        <img
+          src={src}
+          alt={`Cover of ${title}`}
+          loading="lazy"
+          referrerPolicy="no-referrer"
+          onError={() => setMissing(true)}
+          className="h-full w-full object-cover grayscale contrast-125 transition-[filter,transform] duration-500 ease-out group-hover:scale-105 group-hover:contrast-100 group-hover:grayscale-0"
+        />
+        {/* Subtle printed book spine border */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-1 border-r border-ink/20 bg-ink/10" aria-hidden="true" />
+      </div>
       <div
         className="halftone pointer-events-none absolute inset-0 opacity-20 mix-blend-multiply transition-opacity duration-500 ease-out group-hover:opacity-0"
         aria-hidden="true"
       />
-    </>
+    </div>
   );
 };
 
@@ -74,9 +82,9 @@ const CoverPlate = ({
 const Progress = ({ value }: { value: number }) => {
   const pct = Math.max(0, Math.min(100, Math.round(value)));
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-2.5">
       <div
-        className="h-2.5 flex-1 border rule-ink bg-greenbar/50"
+        className="h-2 flex-1 border rule-ink bg-greenbar/50"
         role="progressbar"
         aria-valuenow={pct}
         aria-valuemin={0}
@@ -85,7 +93,7 @@ const Progress = ({ value }: { value: number }) => {
       >
         <div className="h-full bg-ink" style={{ width: `${pct}%` }} />
       </div>
-      <Label className="text-ink-soft">{pct}%</Label>
+      <Label className="text-ink-soft text-[0.6875rem]">{pct}%</Label>
     </div>
   );
 };
@@ -94,38 +102,40 @@ const Progress = ({ value }: { value: number }) => {
 const OpenRecord = ({ book, delay }: { book: CurrentRead; delay: number }) => (
   <Line line={4 + delay} className="group flex flex-col border-2 rule-ink sm:flex-row">
     {/* Cover plate */}
-    <div className="relative shrink-0 overflow-hidden border-b-2 rule-ink bg-greenbar/25 sm:w-44 sm:border-b-0 sm:border-r-2">
-      <CoverPlate src={book.cover} title={book.title} size="h-48 w-full sm:h-64" />
+    <div className="relative shrink-0 overflow-hidden border-b-2 rule-ink sm:w-36 md:w-40 sm:border-b-0 sm:border-r-2">
+      <CoverPlate src={book.cover} title={book.title} size="h-44 sm:h-52" />
     </div>
 
-    {/* Record body */}
-    <div className="flex flex-1 flex-col p-5">
-      <div className="flex items-baseline justify-between gap-4">
-        <Label className="text-ledger-red">Now reading</Label>
-        {book.since && <Label className="text-ink-soft">Since {book.since}</Label>}
+    {/* Record body - compact & intentional */}
+    <div className="flex flex-1 flex-col justify-between p-4 space-y-2.5">
+      <div>
+        <div className="flex items-baseline justify-between gap-3">
+          <Label className="text-ledger-red text-[0.6875rem]">Now reading</Label>
+          {book.since && <Label className="text-ink-soft text-[0.6875rem]">Since {book.since}</Label>}
+        </div>
+
+        <h2 className="mt-1.5 text-base sm:text-lg font-bold uppercase leading-tight tracking-tight text-ink">
+          {book.title}
+        </h2>
+        <p className="mt-0.5 text-xs text-ink-soft">{book.author}</p>
       </div>
 
-      <h2 className="mt-3 text-xl font-bold uppercase leading-tight tracking-tight text-ink">
-        {book.title}
-      </h2>
-      <p className="mt-1 text-sm text-ink-soft">{book.author}</p>
-
-      <div className="mt-4 border-t rule-soft pt-4">
+      <div className="border-t rule-soft pt-2">
         {book.progress === undefined ? (
-          <Label className="text-ink-soft">In progress · unscored</Label>
+          <Label className="text-ink-soft text-[0.6875rem]">In progress · unscored</Label>
         ) : (
           <Progress value={book.progress} />
         )}
       </div>
 
       {book.note && (
-        <p className="mt-4 border-t rule-soft pt-4 text-sm leading-relaxed text-ink/85">
+        <p className="border-t rule-soft pt-2 text-xs leading-relaxed text-ink/85">
           {book.note}
         </p>
       )}
 
       {book.tags && book.tags.length > 0 && (
-        <div className="mt-4 flex flex-wrap gap-2 border-t rule-soft pt-4">
+        <div className="flex flex-wrap gap-1.5 border-t rule-soft pt-2">
           {book.tags.map((tag) => (
             <Chip key={tag}>{tag}</Chip>
           ))}
@@ -137,40 +147,41 @@ const OpenRecord = ({ book, delay }: { book: CurrentRead; delay: number }) => (
 
 /**
  * One filed book record — cover, verdict, score.
- * `index` is the entry's place in the filtered log (drives the LOG-NN stamp);
- * `delay` is its place within the printed batch (drives the strike-in stagger).
+ * Compact, proportional layout with no wasted empty space.
  */
 const Record = ({ book, index, delay }: { book: Book; index: number; delay: number }) => (
   <Line line={6 + delay} className="group flex h-full flex-col border-2 rule-ink">
     {/* Filing header band */}
-    <div className="flex items-center justify-between border-b-2 rule-ink bg-greenbar/60 px-4 py-2">
-      <Label className="text-ledger-red">LOG-{String(index + 1).padStart(2, "0")}</Label>
-      <Label className="text-ink-soft">{book.date ?? `Entry ${index + 1}`}</Label>
+    <div className="flex items-center justify-between border-b rule-ink bg-greenbar/60 px-3 py-1.5">
+      <Label className="text-ledger-red text-[0.6875rem]">LOG-{String(index + 1).padStart(2, "0")}</Label>
+      <Label className="text-ink-soft text-[0.6875rem]">{book.date ?? `Entry ${index + 1}`}</Label>
     </div>
 
     {/* Cover plate */}
-    <div className="relative overflow-hidden border-b-2 rule-ink bg-greenbar/25">
-      <CoverPlate src={book.cover} title={book.title} />
+    <div className="border-b rule-ink">
+      <CoverPlate src={book.cover} title={book.title} size="h-44" />
     </div>
 
-    {/* Record body */}
-    <div className="flex flex-1 flex-col p-5">
-      <h2 className="text-lg font-bold uppercase leading-tight tracking-tight text-ink">
-        {book.title}
-      </h2>
-      <p className="mt-1 text-sm text-ink-soft">{book.author}</p>
+    {/* Record body - tightly structured */}
+    <div className="flex flex-1 flex-col justify-between p-3.5 space-y-2.5">
+      <div>
+        <h2 className="text-sm font-bold uppercase leading-snug tracking-tight text-ink line-clamp-1" title={book.title}>
+          {book.title}
+        </h2>
+        <p className="text-xs text-ink-soft line-clamp-1 mt-0.5">{book.author}</p>
+      </div>
 
-      <div className="mt-4 border-t rule-soft pt-4">
-        <Label className="mb-2 block text-ink-soft">Enjoyability</Label>
+      <div className="border-t rule-soft pt-2 flex items-center justify-between">
+        <Label className="text-ink-soft text-[0.6875rem]">Rating</Label>
         <Rating score={book.rating} />
       </div>
 
-      <p className="mt-4 flex-1 border-t rule-soft pt-4 text-sm leading-relaxed text-ink/85">
+      <p className="border-t rule-soft pt-2 text-xs leading-relaxed text-ink/85 line-clamp-3 min-h-[2.5rem]">
         {book.note}
       </p>
 
       {book.tags && book.tags.length > 0 && (
-        <div className="mt-4 flex flex-wrap gap-2 border-t rule-soft pt-4">
+        <div className="flex flex-wrap gap-1.5 border-t rule-soft pt-2">
           {book.tags.map((tag) => (
             <Chip key={tag}>{tag}</Chip>
           ))}
@@ -180,8 +191,8 @@ const Record = ({ book, index, delay }: { book: Book; index: number; delay: numb
   </Line>
 );
 
-/** Records printed per batch — the log pages in five-entry runs. */
-const PAGE_SIZE = 5;
+/** Records printed per batch — 6 per batch for balanced 2 and 3 column grids. */
+const PAGE_SIZE = 6;
 
 /** Sentinel for the unfiltered view. */
 const ALL_TAGS = "All";
@@ -298,7 +309,7 @@ const Reads = () => {
                       {currentReads.length} open
                     </Label>
                   </Line>
-                  <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+                  <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
                     {currentReads.map((book, i) => (
                       <OpenRecord key={book.title} book={book} delay={i} />
                     ))}
@@ -346,7 +357,7 @@ const Reads = () => {
                 </Line>
               ) : (
                 <>
-                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 sm:gap-5">
                     {shown.map((book, i) => (
                       <Record key={book.title} book={book} index={i} delay={i % PAGE_SIZE} />
                     ))}

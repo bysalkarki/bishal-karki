@@ -41,7 +41,7 @@ export function useReveal<T extends HTMLElement = HTMLElement>() {
 export const Line: React.FC<
   React.HTMLAttributes<HTMLDivElement> & { as?: keyof JSX.IntrinsicElements; line?: number }
 > = ({ as: Tag = "div", line = 0, className = "", style, children, ...rest }) => {
-  const Comp = Tag as any;
+  const Comp = Tag as React.ElementType;
   return (
     <Comp
       className={`print-on ${className}`}
