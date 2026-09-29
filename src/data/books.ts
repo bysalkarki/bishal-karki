@@ -146,13 +146,4 @@ export const books: Book[] = [
         date: "Feb 2015",
         tags: ["Fiction", "Nepali"],
     },
-    {
-        title: "Verity",
-        author: "Colleen Hoover",
-        cover: "/covers/verity.jpg",
-        rating: 4,
-        note: "Suspenseful and thrilling. Must read!",
-        date: "Dec 2024",
-        tags: ["Fiction", "Thriller"],
-    },
 ];
