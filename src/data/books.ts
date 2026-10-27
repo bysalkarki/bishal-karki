@@ -66,6 +66,22 @@ export const currentReads: CurrentRead[] = [
 
 export const books: Book[] = [
     {
+        title: "The Silent Patient",
+        author: "Alex Michaelides",
+        cover: "/covers/silent-patient.jpg",
+        rating: 4,
+        note: "A silent woman, a fixated therapist, and a twist I didn't see coming.",
+        tags: ["Fiction", "Thriller"],
+    },
+    {
+        title: "All Systems Red",
+        author: "Martha Wells",
+        cover: "/covers/all-systems-red.jpg",
+        rating: 4,
+        note: "A socially awkward murderbot who'd rather watch TV. Short, funny, sharp.",
+        tags: ["Fiction", "Sci-Fi"],
+    },
+    {
         title: "The Pragmatic Programmer",
         author: "Andrew Hunt & David Thomas",
         cover: "/covers/pragmatic-programmer.jpg",
